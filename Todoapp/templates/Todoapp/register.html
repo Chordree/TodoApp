@@ -1,0 +1,18 @@
+<h1> sign up and own an account </h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label for=""> {{form.username.label}}</label>
+    {{form.username}} 
+    <br>
+    <label for=""> desired password</label>
+    {{form.password1}} 
+    <br>
+    <label for=""> {{form.password2.label}}</label>
+    {{form.password2}}
+
+    <input type="submit" value="register">
+</form>  
+
+<p> have an account aready? <a href="{% url 'loginpage' %}"> Login </a></p>
+# see how to allow error to be displayed on wrong reg

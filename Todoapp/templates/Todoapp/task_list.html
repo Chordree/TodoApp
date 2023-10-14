@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        <h4>welcome, {{request.user|title}}</h4>
+        <a href="{% url 'logout' %}">Logout</a>
+        # customise the logout to inherit as a home but with only read operations 
+    {% else %}
+    <a href="{% url 'loginpage' %}">Login</a>
+    {% endif %}    
+    <hr>
+    <h1>our todo List</h1>
+
+    
+    <form method="get">
+        <input type="text" name="searchtext" value="{{lastsearch}}" >
+        <input type="submit" value="search">
+        <p> serach for a task</p>
+    </form>
+    
+    <table>
+        <tr>
+            <th>items </th>
+            <th>click view section heading </th> 
+            <!-- just sampling the above display pattern -->
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            {% if task.completed %}
+            <td><s><i>{{task.title}}</i></s></td>
+            {% else %}
+            <td>{{task.title}}</td>
+            {% endif %}
+            <td> <a href="{% url 'details' task.id  %}"> click to read more</a></td>
+            <td><a href="{% url 'editItem' task.id %}"> edit task</a></td>
+            <td><a href="{% url 'deletetask' task.id %}"> delete task</a></td>
+            <!-- # note a ginger code line would still execute even if it is commented as html -->
+        </tr>
+        {% empty %}
+        <h2> no task found </h2>
+        {% endfor %}
+    </table>
+    <a href="{% url 'additem' %}">add new task</a>
+    <p>you have {{count}} uncompleted task{{count|pluralize}}</p>
+</body>
+</html>
+
+# try using the if else block for an authenticated user
